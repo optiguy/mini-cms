@@ -3,7 +3,17 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
+   
+.widget{
+	padding:20px;
+	text-align: center;
+	background-color:#f1f1f1;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+.widget a{
+	font-size: 150%;
+}
 
 
 

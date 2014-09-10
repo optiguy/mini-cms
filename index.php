@@ -1,4 +1,4 @@
-<?php require_once 'inc/bootstrap.php' ?>
+<?php require_once 'inc/bootstrap.php'; //Load the entire system ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -29,15 +29,15 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <?php require_once('inc/_menu.php'); ?>
-    <?php echo show_messages() ?>
+    <?php require_once('inc/_menu.php'); //Include our menu ?>
+    <?php echo show_messages() //Show flash messages - See inc/functions.php ?>
     <div class="container">
 		<?php
-			$page = (isset($_GET['page']))? $_GET['page'] : '' ; 
-			set_page($page);
+			$page = (isset($_GET['page'])) ? $_GET['page'] : '' ; //Make sure $page is set to avoid a PHP Notice (Shorthanded if)
+			set_page($page); //Request the page - See inc/functions.php
 		?>
 	</div>
-    <?php require_once('inc/_footer.php'); ?>
-
+    <?php require_once('inc/_footer.php'); //Include our footer?>
+    <?php if(DEBUG){require_once 'inc/debug.php';} ?>
     </body>
 </html>

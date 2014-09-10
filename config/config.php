@@ -1,21 +1,15 @@
 <?php
-	session_start();
-	
-	define('BASE_URL','http://mini-cms.dev/');
-	define('DEBUG',true);
-
-	$database['driver']   = 'mysql';
-	$database['sqllite']  = './example.db';
-	$database['host']     = '127.0.0.1';
-	$database['database'] = 'dbminicms';
-	$database['username'] = 'root';
-	$database['password'] = 'root';
-	
+	session_start(); //Start access to seesions
+	define('BASE_URL','http://mini-cms.dev/'); //Define our base url
+	define('DEBUG',true); //Set error's if set to yes
 	if(DEBUG)
 	{
-		ini_set('display_errors', true);
-  		error_reporting(-1);
+		ini_set('display_errors', 1);
+		ini_set('log_errors', 0);
+		error_reporting(-1);
 	} else {
-		ini_set('display_errors', false);
+		ini_set('display_errors', 0);
+		ini_set('log_errors', 1);
+		error_reporting(0);
 	}
 ?>

@@ -1,14 +1,16 @@
-<?php if(!defined('BASE_URL')) die('No Script acces is allowed'); ?>
+<?php if(!defined('BASE_URL')) die('No Script access is allowed'); ?>
 <?php
-	redirect_if_user();
+	redirect_if_user(); //Redirect if user is not administrator - See inc/functions.php
 
 	if(isset($_GET['task']) and $_GET['task'] == 'del')
 	{
 		if(isset($_GET['user_id']))
 		{
 			$user = ORM::for_table('users')->find_one($_GET['user_id']);
+			$avatar = $user->avatar;
 			if(!$user or !$user->delete())
 			{
+				if($avatar)unlink(BASE_URL.'uploads/avatars/'.$avatar);	
 				set_message('user', 'Kunne ikke slette brugeren');
 				redirect_to(BASE_URL.'?page=admin_user');
 			} else {
@@ -21,22 +23,58 @@
 		}
 	} elseif( isset($_POST['save_user']) or isset($_POST['edit_user']) )
 	{
+		//Klargør 
 		$user = (isset($_POST['save_user'])) ? ORM::for_table('users')->create() : ORM::for_table('users')->find_one($_GET['user_id']);
+
+		$mime_type = array('jpg','jpeg','gif','png','bmp'); //Tilladte filtyper
+		$max_size = 1024*1024*5; //Max tilladte fil størrelse
+		$image = $_FILES['avatar']; //Gem billedet i en variabel
+		if( !empty($image['name']) ) //Hvis der er et billede der skal uploades
+		{
+			if( $image['error']==0 ) //Hvis billedet ikke indeholder fejl
+			{
+				$mime = pathinfo($image['name'], PATHINFO_EXTENSION); //Hent fil endelse
+				if( !in_array($mime, $mime_type) ) //Tjek på om filendelse er gyldig
+				{
+					set_message('avatar','Filen er ikke et billede'); //Sæt fejlbesked - See inc/functions.php
+					redirect_to(BASE_URL.'?page=admin_user');//Redirect og vis besked
+				}
+				if( $image['size'] > $max_size )
+				{
+					set_message('avatar','Filen er for stor');//Sæt fejlbesked - See inc/functions.php
+					redirect_to(BASE_URL.'?page=admin_user');//Redirect og vis besked
+				}
+				if( !empty($user->avatar) ) //Hvis brugeren allerede har et billede
+					unlink('uploads/avatars/'.$user->avatar); //Slet billedet
+
+				$filename = time().'_'.$image['name']; //Lav nyt filnavn til billedet
+				WideImage::load($image['tmp_name'])->resize(150,150,'outside')->crop('center','center',150,150)->saveToFile('uploads/avatars/'.$filename);
+				$user->avatar = $filename; //Gem i database
+
+			} else {
+				set_message('avatar','Billedet indeholder fejl!');//Sæt fejlbesked - See inc/functions.php
+				redirect_to(BASE_URL.'?page=admin_user');//Redirect og vis besked
+			}
+		}
+
+		
 		$user->name     = $_POST['name'];
 		$user->email    = $_POST['email'];
 		$user->password = $_POST['password'];
 		$user->adresse  = $_POST['adresse'];
-		$user->avatar   = $_FILES['avatar']['name'];
 		$user->rolle_id = $_POST['rolle'];
+		
 		if(!$user->save())
 		{
 			set_message('user','Kunne ikke gemme brugeren');
 			redirect_to(BASE_URL.'?page=admin_user');
+		} else {
+			set_message('user','Brugeren er oprettet');
+			redirect_to(BASE_URL.'?page=admin_user');
 		}
+		
 	}
-
 	$users = ORM::for_table('users')->select('users.*')->select('rolle.navn','rolename')->inner_join('rolle','rolle.id = users.rolle_id')->find_many();
-
 ?>
 <?php if(isset($_GET['task']) and ($_GET['task'] == 'new' or $_GET['task'] == 'edit')): ?>
 <?php if($_GET['task'] == 'edit')
@@ -59,6 +97,7 @@
 			<select class="controle-group" name="rolle">
 				<?php
 					$roller = ORM::for_table('rolle')->find_many();
+					//TODO - Make function that outputs a selectbox
 					foreach($roller as $rolle){
 						if( isset($user->rolle_id) )
 							$selected = ($rolle->id == $user->rolle_id)? 'selected' : '';
@@ -68,7 +107,7 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<?php echo (isset($user->avatar))?'<img src="'.$user->avatar.'" alt="" >':''?>
+			<?php echo (isset($user->avatar))?'<img src="uploads/avatars/'.$user->avatar.'" alt="" >':''?>
 			<label for="avatar">Avatar</label>
 			<input type="file" name="avatar">
 		</div>

@@ -1,4 +1,9 @@
 <?php
+	/**
+	 * Check the user's role
+	 * @param  integer $role the role to check - 1 is Super moderator
+	 * @return bool        	 true if user has rights
+	 */
 	function check_min_role($role=2)
 	{
 		if(isset($_SESSION['user']) and $_SESSION['user']['rolle_id'] <= $role)
@@ -7,20 +12,35 @@
 		}
 		return false;
 	}
-
+	/**
+	 * Redirect the user to a given url
+	 * @param  string $url The url to go to
+	 * @return 302      Redirect
+	 */
 	function redirect_to($url)
 	{
 		header('location:'.$url);
 	}
 
+	/**
+	 * Redirect the user if not administrator
+	 * @return bool 	true if user has the the nessecasry rights
+	 */
 	function redirect_if_user()
 	{
 		if(!check_min_role())
 		{
-			header('location:'.BASE_URL);
+			redirect_to(BASE_URL);
 		}
+		return true;
 	}
 
+	/**
+	 * Show a single flash message and remove it afterwards
+	 * Returns false if message doesn't exist
+	 * @param  string $message_name Name og the message to display
+	 * @return string 				Html message to display
+	 */
 	function show_message($message_name)
 	{
 		if(!isset($_SESSION['message'][$message_name])) return false;
@@ -28,7 +48,11 @@
 		unset($_SESSION['message'][$message_name]);
 		return $html;
 	}
-
+	/**
+	 * Show all flash message and remove them afterwards
+	 * Returns false if message doesn't exist
+	 * @return string 				Html message to display
+	 */
 	function show_messages()
 	{
 		$html = '';
@@ -41,11 +65,20 @@
 	  	return $html;
 	}
 
+	/**
+	 * Set a flash message
+	 * @param string $type    Title for the message
+	 * @param string $message Message to display
+	 */
 	function set_message($type, $message)
 	{
 		$_SESSION['message'][$type] = $message;
 	}
 
+	/**
+	 * Set the requested page or default to home
+	 * @param string $page the page to display
+	 */
 	function set_page($page)
 	{
 		switch ($page) {
@@ -61,7 +94,8 @@
 				require_once 'inc/admin/_admin_user.php';
 				break;
 			
-			default:
+			default: 
+				//Todo : Set to 404 if page don't exist
 				require_once 'inc/_home.php';
 				break;
 		}
