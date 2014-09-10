@@ -57,10 +57,9 @@
 			}
 		}
 
-		
 		$user->name     = $_POST['name'];
 		$user->email    = $_POST['email'];
-		$user->password = $_POST['password'];
+		$user->password = better_crypt($_POST['password']);
 		$user->adresse  = $_POST['adresse'];
 		$user->rolle_id = $_POST['rolle'];
 		

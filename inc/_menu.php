@@ -6,13 +6,12 @@
   if( isset($_POST['user_mail']) and isset($_POST['user_pass']) )
   {
     //Get user from database
-    //Todo : Encrypt password
+    //Todo : Encrypt password'
     $user = ORM::for_table('users')->where(array(
-      'email'=>$_POST['user_mail'],
-      'password'=>$_POST['user_pass'],
-      ))->find_one();
-    //If there is a user
-    if($user)
+      'email'=>$_POST['user_mail']
+    ))->find_one();
+
+    if(crypt($_POST['user_pass'], $user->password) == $user->password)
     {
       $_SESSION['user']['id'] = $user->id;
       $_SESSION['user']['name'] = $user->name;

@@ -1,4 +1,24 @@
 <?php
+	
+	/**
+	 * Return a strong one-way encrypted password with salt.
+	 * @param  string  $input  The password to encrypt
+	 * @param  integer $rounds The lenght of the salt
+	 * @return string          The Encrypted password
+	 */
+	function better_crypt($input, $rounds = 7)
+	{
+		// Original PHP code by Chirp Internet: www.chirp.com.au
+  		// Please acknowledge use of this code by including this header.
+		$salt = "";
+		$salt_chars = array_merge(range('A','Z'), range('a','z'), range(0,9));
+		for($i=0; $i < 22; $i++) {
+		  $salt .= $salt_chars[array_rand($salt_chars)];
+		}
+		//Result : $2a$07$vY6x3F45HQSAiOs6N5wMuOwZQ7pUPoSUTBkU/DEF/YNQ2uOZflMIa
+		return crypt($input, sprintf('$2a$%02d$', $rounds) . $salt);
+	}
+
 	/**
 	 * Check the user's role
 	 * @param  integer $role the role to check - 1 is Super moderator
