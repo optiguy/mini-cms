@@ -96,24 +96,24 @@
 ?>
 <?php echo show_message('user'); ?>
 <?php if(isset($_GET['task']) and ($_GET['task'] == 'new' or $_GET['task'] == 'edit')): ?>
-<?php if($_GET['task'] == 'edit')
-		$user = ORM::for_table('users')->find_one($_GET['user_id']); ?>
-	<form method="post" class="form form-horizontal" enctype="multipart/form-data">
+<?php if($_GET['task'] == 'edit') $user = ORM::for_table('users')->find_one($_GET['user_id']); ?>
+	<h1>Bruger administraion</h1>
+	<form method="post" role="form" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="name">Navn</label>
-			<input type="text" class="controle-group" value="<?php echo (isset($_POST['name']))?$_POST['name']:$user->name?>" name="name" placeholder="Indsæt brugerens navn...">
+			<input type="text" class="form-control" value="<?php echo (isset($_POST['name']))?$_POST['name']:$user->name?>" name="name" placeholder="Indsæt brugerens navn...">
 		</div>
 		<div class="form-group">
 			<label for="email">email</label>
-			<input type="email" class="controle-group" value="<?php echo (isset($_POST['email']))?$_POST['email']:$user->email?>" name="email" placeholder="Indsæt brugerens navn...">
+			<input type="email" class="form-control" value="<?php echo (isset($_POST['email']))?$_POST['email']:$user->email?>" name="email" placeholder="Indsæt brugerens navn...">
 		</div>
 		<div class="form-group">
 			<label for="password">password</label>
-			<input type="password" class="controle-group" name="password" placeholder="Indsæt brugerens navn...">
+			<input type="password" class="form-control" name="password" placeholder="Indsæt brugerens navn...">
 		</div>
 		<div class="form-group">
 			<label for="rolle">rolle</label>
-			<select class="controle-group" name="rolle">
+			<select class="form-control" name="rolle">
 				<?php
 					$roller = ORM::for_table('rolle')->find_many();
 					//TODO - Make function that outputs a selectbox
@@ -126,22 +126,22 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<?php echo (isset($user->avatar))?'<img src="uploads/avatars/'.$user->avatar.'" alt="" >':''?>
+			<?php echo ($user->avatar != null)?'<img src="uploads/avatars/'.$user->avatar.'" alt="" >':''?>
 			<label for="avatar">Avatar</label>
-			<input type="file" name="avatar">
+			<input class="form-control" type="file" name="avatar">
 		</div>
 		<div class="form-group">
 			<label for="adresse">adresse</label>
-			<textarea class="controle-group" name="adresse" id="" cols="30" rows="10"><?php echo (isset($user->adresse))?$user->adresse:''?></textarea>
+			<textarea class="form-control" name="adresse" id="" cols="30" rows="10"><?php echo (isset($user->adresse))?$user->adresse:''?></textarea>
 		</div>
 		<?php if( $_GET['task'] == 'new' ): ?>
 			<input type="submit" name="save_user" class="btn btn-primary" value="Gem bruger">
 		<?php else: ?>
 			<input type="submit" name="edit_user" class="btn btn-primary" value="Gem bruger">
 		<?php endif; ?>
+		<a href="<?php echo BASE_URL ?>?page=admin_user" class="btn btn-default">Annuler</a>
 	</form>
-<?php endif; ?>
-
+<?php else: //Show form?>
 <table class="table table-bordered">
 	<tr>
 		<th>Navn</th>
@@ -161,3 +161,4 @@
 		</tr>
 	<?php endforeach; ?>
 </table>
+<?php endif;  ?>
