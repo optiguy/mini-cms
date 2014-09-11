@@ -3,6 +3,7 @@
 	define('BASE_URL','http://mini-cms.dev/'); //Define our base url
 	define('DEBUG',true); //Set error's if set to yes
 	define('PER_PAGE',5);
+	define('NUM_RATING',10);
 
 	if(DEBUG)
 	{
