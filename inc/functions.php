@@ -61,11 +61,13 @@
 	 * @param  string $message_name Name og the message to display
 	 * @return string 				Html message to display
 	 */
-	function show_message($message_name)
+	function show_message($type)
 	{
-		if(!isset($_SESSION['message'][$message_name])) return false;
-		$html = '<div class="alert alert-warning" role="alert">'.$_SESSION['message'][$message_name].'</div>';
-		unset($_SESSION['message'][$message_name]);
+		if(!isset($_SESSION['message'][$type])) return false;
+		$html = '';
+		foreach($_SESSION['message'][$type] as $message)
+			$html .= '<div class="alert alert-warning" role="alert">'.$message.'</div>';
+		unset($_SESSION['message'][$type]);
 		return $html;
 	}
 	/**
@@ -77,9 +79,10 @@
 	{
 		$html = '';
 		if(!isset($_SESSION['message'])) return false;
-		  foreach($_SESSION['message'] as $type=>$message)
+		  foreach($_SESSION['message'] as $type=>$messages)
 		  {
-			$html .= '<div class="alert alert-warning" role="alert"><strong>'.$type.'</strong> '.$message.'</div>';
+	  		foreach($messages as $message)
+				$html .= '<div class="alert alert-warning" role="alert"><strong>'.$type.'</strong> '.$message.'</div>';
 		  }
 		unset($_SESSION['message']);
 	  	return $html;
@@ -92,7 +95,7 @@
 	 */
 	function set_message($type, $message)
 	{
-		$_SESSION['message'][$type] = $message;
+		$_SESSION['message'][$type][] = $message;
 	}
 
 	/**
