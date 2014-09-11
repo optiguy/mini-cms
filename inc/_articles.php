@@ -34,23 +34,28 @@
 				echo '<li class="'.$active.'"><a href="'.BASE_URL.'?page=articles&page_num='.$i.'">'.$i.'</a></li>';
 			}?>
 		</ul>
-		<?php foreach($articles as $article): ?>
-			<?php $avg_rating = ($article->votes != 0)? number_format($article->rating/$article->votes,1,',','.') : 0; ?>
-			<h2><?php echo $article->title ?></h2>
-			<p><?php echo $article->content ?></p>
-			
-			Antal stemmer: <?php echo $article->votes ?>
-			Stem her : 
-			<?php
-			for ($i=0; $i < NUM_RATING; $i++) { 
-				if($i < $avg_rating)
-					echo '<a href="'.BASE_URL.'?page=articles&article='.$article->id.'&rating='.$i.'"><span class="glyphicon glyphicon-star"></span></a>';		
-				else 
-					echo '<a href="'.BASE_URL.'?page=articles&article='.$article->id.'&rating='.$i.'"><span class="glyphicon glyphicon-star-empty"></span></a>';
-			}
-			?>
-			<?php echo $avg_rating ?>/<?php echo NUM_RATING ?>
-			<hr>
-		<?php endforeach; ?>
+		<?php if($total_articles == 0): ?>
+			<h2>Der er ingen artikler i øjeblikket.</h2>
+		<?php else: ?>
+			<?php foreach($articles as $article): ?>
+				<?php $avg_rating = ($article->votes != 0)? number_format($article->rating/$article->votes,1,',','.') : 0; ?>
+				<h2><?php echo $article->title ?></h2>
+				<p><?php echo $article->content ?></p>
+				
+				Antal stemmer: <?php echo $article->votes ?>
+				Stem her : 
+				<?php
+				for ($i=0; $i < NUM_RATING; $i++) { 
+					if($i < $avg_rating)
+						echo '<a href="'.BASE_URL.'?page=articles&article='.$article->id.'&rating='.$i.'"><span class="glyphicon glyphicon-star"></span></a>';		
+					else 
+						echo '<a href="'.BASE_URL.'?page=articles&article='.$article->id.'&rating='.$i.'"><span class="glyphicon glyphicon-star-empty"></span></a>';
+				}
+				?>
+				<?php echo $avg_rating ?>/<?php echo NUM_RATING ?>
+				<hr>
+			<?php endforeach; ?>
+		<?php endif; ?>
+
 	</div>
 </div>
