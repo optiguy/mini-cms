@@ -38,6 +38,7 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="<?php echo BASE_URL ?>?page=home">Home</a></li>
+        <li><a href="<?php echo BASE_URL ?>?page=articles">Artikler</a></li>
         <li><a href="<?php echo BASE_URL ?>?page=contact">Kontakt</a></li>
         <?php echo (check_min_role())?'<li><a href="'.BASE_URL.'?page=dashboard">Administration</a></li>':''; //Display admin link if user has rights?>
       </ul>

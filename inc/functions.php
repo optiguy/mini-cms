@@ -116,6 +116,10 @@
 			case 'admin_user':
 				require_once 'inc/admin/_admin_user.php';
 				break;
+
+			case 'articles':
+				require_once 'inc/_articles.php';
+				break;
 			
 			default: 
 				//Todo : Set to 404 if page don't exist
