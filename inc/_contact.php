@@ -1,63 +1,24 @@
 <?php if(!defined('BASE_URL')) die('No Script acces is allowed'); ?>
+<h1>Kontakt os</h1>
 
-<form class="form-horizontal">
-	<fieldset>
-		<legend>Controls Bootstrap supports</legend>
-		<div class="control-group">
-			<label class="control-label" for="input01">Text input</label>
-			<div class="controls">
-				<input type="text" class="input-xlarge" id="input01">
-				<p class="help-block">In addition to freeform text, any HTML5 text-based input appears like so.</p>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="optionsCheckbox">Checkbox</label>
-			<div class="controls">
-				<label class="checkbox">
-					<input type="checkbox" id="optionsCheckbox" value="option1">
-					Option one is this and that—be sure to include why it's great
-				</label>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="select01">Select list</label>
-			<div class="controls">
-				<select id="select01">
-					<option>something</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
-				</select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="multiSelect">Multicon-select</label>
-			<div class="controls">
-				<select multiple="multiple" id="multiSelect">
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
-				</select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="fileInput">File input</label>
-			<div class="controls">
-				<input class="input-file" id="fileInput" type="file">
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="textarea">Textarea</label>
-			<div class="controls">
-				<textarea class="input-xlarge" id="textarea" rows="3"></textarea>
-			</div>
-		</div>
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Save changes</button>
-			<button class="btn">Cancel</button>
-		</div>
-	</fieldset>
+<form role="form">
+  <div class="form-group">
+    <label for="exampleInputEmail1">*Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Navn</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter name">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputFile">*Besked</label>
+    <textarea name="exampleInputFile" class="form-control" id="exampleInputFile1" cols="30" rows="10"></textarea>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Send kopi til min mail
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">Send</button>
+  <p>Vi prøver at bestræbe os på at svarer indenfor 24 timer & max. 3 arbejdsdage.</p>
 </form>
