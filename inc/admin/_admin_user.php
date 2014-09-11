@@ -26,6 +26,7 @@
 		}
 	} elseif( isset($_POST['save_user']) or isset($_POST['edit_user']) )
 	{
+		//Todo : Add validation as a function
 		$rules = array(
 		    'name' => 'required|valid_name',
 		    'email' => 'required|valid_email',
@@ -43,7 +44,7 @@
 		     foreach($validator->get_readable_errors() as $error)
 	     		set_message('user',$error);
 		else:
-			
+			//Todo : Add upload as a function
 			$mime_type = array('jpg','jpeg','gif','png','bmp'); //Tilladte filtyper
 			$max_size = 1024*1024*5; //Max tilladte fil størrelse
 			$image = $_FILES['avatar']; //Gem billedet i en variabel
