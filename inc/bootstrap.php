@@ -9,6 +9,7 @@
 	//Load vendor packages
 	require_once 'vendor/idiorm-master/idiorm.php';
 	require_once 'vendor/wideimage-full/lib/WideImage.php';
+	require_once 'vendor/GUMP-master/gump.class.php';
 	
 	//Set database file for sqllite
 	if($database['driver'] == 'sqllite')
