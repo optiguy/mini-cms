@@ -16,6 +16,7 @@
         
         if( isset($_POST['newsletter_add']) )
         {
+          try{
             //Tilføj person til nyhedsbrev
             $news_user = ORM::for_table('newsletter')->create();
             $news_user->email = $_POST['n_mail'];
@@ -28,19 +29,22 @@
             
             //Sæt besked til 
             set_message('newsletter', 'Du er nu tilmeldt dig vores nyhedsbrev');
+          } catch (Exception $e) {
+            set_message('newsletter','Emailen findes allerede eller der skete en fejl');
+          }
         }
         elseif( isset($_POST['newsletter_no']) )
         {
-            //Afmeld person fra nyhedsbrev
-            $news_user = ORM::for_table('newsletter')->where('email',$_POST['n_mail'])->find_one();
-            if($news_user){
-              $news_user->set_expr('date_deleted','NOW()');
-              $news_user->email = RandomString(10);
-              $news_user->save();
-              set_message('newsletter', 'Ej for helvede, '.$news_user->name.'. Du har nu afmeldt dig vores nyhedsbrev. Det er vi kede af.');
-            } else {
-              set_message('newsletter','Email adressen findes ikke');
-            }
+          //Afmeld person fra nyhedsbrev
+          $news_user = ORM::for_table('newsletter')->where('email',$_POST['n_mail'])->find_one();
+          if($news_user){
+            $news_user->set_expr('date_deleted','NOW()');
+            $news_user->email = RandomString(10);
+            $news_user->save();
+            set_message('newsletter', 'Ej for helvede, '.$news_user->name.'. Du har nu afmeldt dig vores nyhedsbrev. Det er vi kede af.');
+          } else {
+            set_message('newsletter','Email adressen findes ikke');
+          }  
         }        
 
       } else {
@@ -67,11 +71,11 @@
     <form role="form" method="post">
       <div class="form-group">
         <label for="InputEmail1">Email addresse</label>
-        <input type="email" class="form-control" name="n_mail" placeholder="Enter email">
+        <input type="email" class="form-control" name="n_mail" value="<?php echo(isset($_POST['n_mail']))?$_POST['n_mail']:'' ?>" placeholder="Enter email">
       </div>
       <div class="form-group">
         <label for="InputPassword1">Dit navn</label>
-        <input type="text" class="form-control" name="n_name" placeholder="Skriv dit navn">
+        <input type="text" class="form-control" name="n_name" value="<?php echo(isset($_POST['n_name']))?$_POST['n_name']:'' ?>" placeholder="Skriv dit navn">
       </div>
       <button type="submit" name="newsletter_add" class="btn btn-primary">Tilmeld</button>
       <button type="submit" name="newsletter_no" class="btn btn-danger">Afmeld</button>
