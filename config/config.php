@@ -4,6 +4,7 @@
 	define('DEBUG',true); //Set error's if set to yes
 	define('PER_PAGE',5);
 	define('NUM_RATING',10);
+	define('ADMIN_MAIL','info@minicms.dk');
 
 	if(DEBUG)
 	{
