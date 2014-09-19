@@ -65,8 +65,15 @@
 	{
 		if(!isset($_SESSION['message'][$type])) return false;
 		$html = '';
-		foreach($_SESSION['message'][$type] as $message)
-			$html .= '<div class="alert alert-warning" role="alert">'.$message.'</div>';
+		foreach($_SESSION['message'][$type] as $messages)
+		{
+			if( is_array($messages) )
+			{
+				foreach($messages as $message)
+					$html .= '<div class="alert alert-warning" role="alert">'.$message.'</div>';
+			} else
+				$html .= '<div class="alert alert-warning" role="alert">'.$messages.'</div>';
+		}
 		unset($_SESSION['message'][$type]);
 		return $html;
 	}
@@ -96,6 +103,19 @@
 	function set_message($type, $message)
 	{
 		$_SESSION['message'][$type][] = $message;
+	}
+
+	/**
+	 * Generates a random string
+	 * @param int $length how many character
+	 */
+	function RandomString($length = 10) {
+	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	    $randomString = '';
+	    for ($i = 0; $i < $length; $i++) {
+	        $randomString .= $characters[rand(0, strlen($characters) - 1)];
+	    }
+	    return $randomString;
 	}
 
 	/**
