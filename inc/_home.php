@@ -30,7 +30,8 @@
             //Sæt besked til 
             set_message('newsletter', 'Du er nu tilmeldt dig vores nyhedsbrev');
           } catch (Exception $e) {
-            set_message('newsletter','Emailen findes allerede eller der skete en fejl');
+            //F.eks $e->getMessage()
+            set_message('newsletter', 'Emailen findes allerede eller der skete en fejl');
           }
         }
         elseif( isset($_POST['newsletter_no']) )
