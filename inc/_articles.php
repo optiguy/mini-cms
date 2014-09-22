@@ -1,3 +1,4 @@
+<?php if(!defined('BASE_URL')) die('No Script acces is allowed'); ?>
 <?php
 	$page_num = ( isset($_GET['page_num']) ) ? $_GET['page_num']-1 : 0 ; //Set page index - ex. First page 1-1= skip 0, 2-1= skip 1 page
 	$offset = PER_PAGE*$page_num; //How many articles to skip. ex 5*1 = 5 (Page 2), 5*2=10 (Page 3), ...
@@ -72,7 +73,9 @@
 		<?php else: ?>
 			<?php foreach($articles as $article): ?>
 				<?php $avg_rating = ($article->votes != 0)? number_format($article->rating/$article->votes,1,',','.') : 0; ?>
-				<h2><?php echo $article->title ?></h2>
+				<a href="<?php echo BASE_URL ?>?page=single&content_id=<?php echo $article->id ?>">
+					<h2><?php echo $article->title ?></h2>
+				</a>
 				<p><?php echo $article->content ?></p>
 				
 				Antal stemmer: <?php echo $article->votes ?>
@@ -100,6 +103,8 @@
 						<a href="<?php echo BASE_URL ?>?page=articles&content_id=<?php echo $article->id ?>&subscribe=on">Abboner på artikel</a>
 					<?php } ?>
 				<?php endif; ?>
+				<br>
+				<a href="<?php echo BASE_URL ?>?page=single&content_id=<?php echo $article->id ?>">Læs hele artiklen her</a>
 				<hr>
 			<?php endforeach; ?>
 		<?php endif; ?>

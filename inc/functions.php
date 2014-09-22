@@ -141,6 +141,10 @@
 			case 'articles':
 				require_once 'inc/_articles.php';
 				break;
+
+			case 'single':
+				require_once 'inc/_single.php';
+				break;
 			
 			default: 
 				//Todo : Set to 404 if page don't exist
