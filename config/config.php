@@ -5,6 +5,10 @@
 	define('PER_PAGE',5);
 	define('NUM_RATING',10);
 	define('ADMIN_MAIL','info@minicms.dk');
+	
+	//Set website to danish zone
+	date_default_timezone_set('Europe/Copenhagen');
+	setlocale('LC_ALL','Europe/Copenhagen');
 
 	if(DEBUG)
 	{
