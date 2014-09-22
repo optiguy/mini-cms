@@ -9,15 +9,14 @@
 	{
 		if(isset($_GET['user_id']))
 		{
-			$user = ORM::for_table('users')->find_one($_GET['user_id']);
-			$avatar = $user->avatar;
-			if(!$user or !$user->delete())
+			$user = ORM::for_table('users')->where_not_equal('id',$_SESSION['user']['id'])->where_gte('rolle_id',$_SESSION['user']['rolle_id'])->find_one($_GET['user_id']);
+			if($user and $user->delete())
 			{
-				if($avatar)unlink(BASE_URL.'uploads/avatars/'.$avatar);	
-				set_message('user', 'Kunne ikke slette brugeren');
+				if($user->avatar)unlink(BASE_URL.'uploads/avatars/'.$user->avatar);	
+				set_message('user', 'Brugeren er blevet slettet permanent');
 				redirect_to(BASE_URL.'?page=admin_user');
 			} else {
-				set_message('user', 'Brugeren er blevet slettet permanent');
+				set_message('user', 'Kunne ikke slette brugeren');
 				redirect_to(BASE_URL.'?page=admin_user');
 			}
 		} else {
