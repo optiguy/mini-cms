@@ -1,6 +1,6 @@
 <?php
 	require_once 'config/config.php'; //Load startup config
-	if(!defined('BASE_URL')) die('No Script acces is allowed');
+	if(!defined('BASE_URL')) die('No Script access is allowed');
 	require_once 'config/database.php';//Load database config
 	
 	//Load internal scripts
